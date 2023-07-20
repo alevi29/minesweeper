@@ -27,6 +27,8 @@ class Board {
     void restart();
 
     bool isGameOver();
+
+    void setGameOver();
 };
 
 #endif //MINESWEEPER_BOARD_H

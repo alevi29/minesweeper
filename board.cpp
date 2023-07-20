@@ -47,7 +47,6 @@ void Board::openCell(int x, int y) {
         cells[x][y].open();
         if (cells[x][y].getMine()) {
             if (firstClick) {
-                firstClick = false;
                 cells[x][y].setMine();
 
                 int i = 0, j = 0;
@@ -66,6 +65,7 @@ void Board::openCell(int x, int y) {
                 gameOver = true;
             }
         }
+        firstClick = false;
     }
 }
 
@@ -81,9 +81,12 @@ void Board::restart() {
     }
     initialize();
     firstClick = true;
-    gameOver = false;
 }
 
 bool Board::isGameOver() {
     return gameOver;
+}
+
+void Board::setGameOver() {
+    this->gameOver = !this->gameOver;
 }
