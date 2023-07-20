@@ -37,7 +37,6 @@ void Board::draw(sf::RenderWindow &window) {
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
             cells[i][j].display(window, i, j);
-            //if (cells[i][j].getMine()) std::cout << "Mine at (" << i << ", " << j << ")\n";
         }
     }
 }
@@ -45,7 +44,10 @@ void Board::draw(sf::RenderWindow &window) {
 void Board::openCell(int x, int y) {
     if (!cells[x][y].getOpen()) {
         cells[x][y].open();
+
+        // if a mine was clicked
         if (cells[x][y].getMine()) {
+            // if first click was a mine, moves the mine away instead of causing game over
             if (firstClick) {
                 cells[x][y].setMine();
 
@@ -61,6 +63,7 @@ void Board::openCell(int x, int y) {
                 }
                 cells[i][j].setMine();
             }
+            // otherwise, game over
             else {
                 gameOver = true;
             }
