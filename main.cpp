@@ -82,7 +82,10 @@ int main()
         theBoard.draw(window);
 
         if (theBoard.isGameOver()) {
-            text.setString("Game over! Press Enter to restart");
+            if (theBoard.getGameWon()) text.setString("You won! Press Enter to restart");
+
+            else text.setString("You lost! Press Enter to restart");
+
             window.draw(text);
             if (activeGame) theBoard.restart();
         }

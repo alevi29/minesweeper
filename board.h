@@ -10,6 +10,7 @@
 class Board {
     bool firstClick;
     bool gameOver;
+    bool gameWon;
 
     Cell cells[ROWS][COLS] = {};
 
@@ -29,6 +30,8 @@ class Board {
     bool isGameOver();
 
     void setGameOver();
+
+    bool getGameWon();
 };
 
 #endif //MINESWEEPER_BOARD_H

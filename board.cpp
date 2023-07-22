@@ -7,6 +7,7 @@
 Board::Board() {
     firstClick = true;
     gameOver = false;
+    gameWon = false;
 
     initialize();
 }
@@ -79,9 +80,9 @@ void Board::flagCell(int x, int y) {
 }
 
 void Board::restart() {
-    for (int i = 0; i < ROWS; ++i) {
-        for (int j = 0; j < COLS; ++j) {
-            cells[i][j].reset();
+    for (auto & cell : cells) {
+        for (auto & j : cell) {
+            j.reset();
         }
     }
     initialize();
@@ -89,9 +90,31 @@ void Board::restart() {
 }
 
 bool Board::isGameOver() {
-    return gameOver;
+    if (gameOver) return true;
+
+    else {
+        int remainingUnopened = ROWS * COLS;
+        for (auto & cell : cells) {
+            for (auto & j : cell) {
+                if (j.getOpen()) --remainingUnopened;
+            }
+        }
+
+        if (remainingUnopened == MINECOUNT) {
+            //gameWon = true;
+            gameOver = true;
+            return true;
+        }
+
+        else return false;
+    }
+}
+
+bool Board::getGameWon() {
+    return this->gameWon;
 }
 
 void Board::setGameOver() {
     this->gameOver = !this->gameOver;
+    this->gameWon = !this->gameWon;
 }

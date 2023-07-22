@@ -27,13 +27,13 @@ void Cell::display(sf::RenderWindow &window, int i, int j) {
     // draws square
     window.draw(curCell);
 
-    /*
+/*
     if (isMine) {
         icon.setPosition(static_cast<float>(CELLSIZE * i), static_cast<float>(CELLSIZE * j));
-        icon.setTextureRect(sf::IntRect(CELLSIZE, 0, CELLSIZE, CELLSIZE));
+        icon.setTextureRect(sf::IntRect(CELLSIZE * 8, 0, CELLSIZE, CELLSIZE));
         window.draw(icon);
     }
-     */
+*/
 
     // displays number of bombs in a 1 square range if square has been clicked
     // to do
@@ -65,7 +65,6 @@ bool Cell::getMine() {
 
 // to do
 void Cell::open(Cell cells[ROWS][COLS], int x, int y) {
-    std::cout << "Test: current row/col: " << x << ", " << y << std::endl;
     if (x < 0 || y < 0 || x >= ROWS || y >= COLS || cells[x][y].isOpened || cells[x][y].isMine) return;
     cells[x][y].isOpened = true;
     getNearby(cells, x, y);
