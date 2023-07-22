@@ -24,7 +24,6 @@ void Board::initialize() {
 
         if (!cells[randX][randY].getMine()) {
             cells[randX][randY].setMine();
-            std::cout << "Mine at (" << randX << ", " << randY << ")\n";
         }
         else {
             --i;
@@ -43,8 +42,6 @@ void Board::draw(sf::RenderWindow &window) {
 
 void Board::openCell(int x, int y) {
     if (!cells[x][y].getOpen()) {
-        cells[x][y].open();
-
         // if a mine was clicked
         if (cells[x][y].getMine()) {
             // if first click was a mine, moves the mine away instead of causing game over
@@ -63,17 +60,22 @@ void Board::openCell(int x, int y) {
                 }
                 cells[i][j].setMine();
             }
-            // otherwise, game over
+                // otherwise, game over
             else {
                 gameOver = true;
             }
         }
+
+        cells[x][y].open(cells, x, y);
+
+        if (cells[x][y].getFlag()) cells[x][y].setFlag();
+
         firstClick = false;
     }
 }
 
 void Board::flagCell(int x, int y) {
-    cells[x][y].setFlag();
+    if (!cells[x][y].getOpen()) cells[x][y].setFlag();
 }
 
 void Board::restart() {

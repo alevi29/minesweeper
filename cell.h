@@ -2,18 +2,19 @@
 #define MINESWEEPER_CELL_H
 
 #include <SFML/Graphics.hpp>
+#include "globalConsts.h"
 
 class Cell {
     bool isMine = false;
     bool isFlagged = false;
     bool isOpened = false;
-    int nearbyMines;
+    int nearbyMines = 0;
 
     public:
 
     Cell();
 
-    void displayNearby();
+    void getNearby(Cell cells[ROWS][COLS], int x, int y);
 
     void display(sf::RenderWindow &window, int i, int j);
 
@@ -21,7 +22,7 @@ class Cell {
 
     bool getMine();
 
-    void open();
+    void open(Cell cells[ROWS][COLS], int x, int y);
 
     bool getOpen();
 

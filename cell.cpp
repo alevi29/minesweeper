@@ -27,15 +27,21 @@ void Cell::display(sf::RenderWindow &window, int i, int j) {
     // draws square
     window.draw(curCell);
 
+    /*
     if (isMine) {
         icon.setPosition(static_cast<float>(CELLSIZE * i), static_cast<float>(CELLSIZE * j));
         icon.setTextureRect(sf::IntRect(CELLSIZE, 0, CELLSIZE, CELLSIZE));
         window.draw(icon);
     }
+     */
 
     // displays number of bombs in a 1 square range if square has been clicked
     // to do
-    if (isOpened) displayNearby();
+    if (isOpened && nearbyMines > 0) {
+        icon.setPosition(static_cast<float>(CELLSIZE * i), static_cast<float>(CELLSIZE * j));
+        icon.setTextureRect(sf::IntRect(CELLSIZE * nearbyMines, 0, CELLSIZE, CELLSIZE));
+        window.draw(icon);
+    }
 
     // display flag icon if flagged
     if (isFlagged) {
@@ -57,13 +63,30 @@ bool Cell::getMine() {
     return this->isMine;
 }
 
-void Cell::displayNearby() {
+// to do
+void Cell::open(Cell cells[ROWS][COLS], int x, int y) {
+    std::cout << "Test: current row/col: " << x << ", " << y << std::endl;
+    if (x < 0 || y < 0 || x >= ROWS || y >= COLS || cells[x][y].isOpened || cells[x][y].isMine) return;
+    cells[x][y].isOpened = true;
+    getNearby(cells, x, y);
+    //std::cout << nearbyMines;
 
+    if (cells[x][y].nearbyMines == 0) {
+        open(cells, x - 1, y);
+        open(cells, x + 1, y);
+        open(cells, x, y - 1);
+        open(cells, x, y + 1);
+    }
 }
 
-// to do
-void Cell::open() {
-    this->isOpened = true;
+void Cell::getNearby(Cell cells[ROWS][COLS], int x, int y) {
+    for (int i = x - 1; i < x + 2; ++i) {
+        for (int j = y - 1; j < y + 2; ++j) {
+            if (i >= 0 && i < ROWS && j >= 0 && j < COLS) {
+                if (cells[i][j].getMine()) cells[x][y].nearbyMines++;
+            }
+        }
+    }
 }
 
 bool Cell::getOpen() {
